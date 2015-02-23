@@ -34,8 +34,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     abstract: true,
     template: '<ion-nav-view />'
   })
-  .state('base.projectlist', {
+  .state('base.login', {
     url: '/',
+    templateUrl: 'templates/login.html'
+  })
+  .state('base.projectlist', {
+    url: '/list',
     templateUrl: 'templates/projects.html',
   })
   .state('base.project', {

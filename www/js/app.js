@@ -36,15 +36,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
   .state('base.login', {
     url: '/',
-    templateUrl: 'templates/login.html'
+    templateUrl: 'templates/login.html',
+    controller: 'ControllerLogin',
   })
   .state('base.projectlist', {
     url: '/list',
     templateUrl: 'templates/projects.html',
   })
   .state('base.project', {
-    url: '/{id}',
+    url: '/{id}', ///xqz/{id2}
     templateUrl: 'templates/projectinfo.html',
+    controller: 'ProjectInfoController'
   });;
 
   $urlRouterProvider.otherwise('/');

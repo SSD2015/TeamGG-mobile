@@ -4,9 +4,10 @@
 	text-align: center;
 	padding: 25px 0;
 }
-.applogo h1, .applogo h4{
+.applogo h1, .applogo h4, .applogo h2{
 	color: white;
 }
+
 .item-note{
 	color: #20A337;
 }

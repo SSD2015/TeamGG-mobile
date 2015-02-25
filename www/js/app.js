@@ -32,7 +32,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // setup an abstract state for the tabs directive
   .state('base', {
     abstract: true,
-    template: '<ion-nav-view />'
+    template: '<ion-nav-view />',
+    controller: 'BaseCtrl',
   })
   .state('base.login', {
     url: '/',
@@ -52,4 +53,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $urlRouterProvider.otherwise('/');
 
+})
+
+.config(function($httpProvider){
+  $httpProvider.defaults.withCredentials = true;
 });

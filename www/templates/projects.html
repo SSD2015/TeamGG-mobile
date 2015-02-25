@@ -1,8 +1,11 @@
 <ion-view hide-nav-bar="true">
 	<ion-content has-bouncing="true">
 		<div class="applogo">
+			<div class="username">
+				<span ng-if="user">Logged in as <strong>{{user.username}}</strong></span>
+				<span ng-if="!user">Not logged in</span>
+			</div>
 			<h1>Exceed Vote!!!</h1>
-			<h2>Username : {{username}}</h2>
 			<h4>Voting close at 16:00</h4>
 		</div>
 		<ion-list>

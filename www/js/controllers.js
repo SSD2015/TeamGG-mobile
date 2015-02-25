@@ -8,6 +8,7 @@ angular.module('starter.controllers', [])
 	});
 
 	$rootScope.bestVoteStatus = false;
+	$rootScope.bestVoteNum = 0;
 })
 .controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading){
 	$scope.username = "";
@@ -82,17 +83,23 @@ angular.module('starter.controllers', [])
 
 .controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){
 	$scope.id = $stateParams.id;
-	$scope.isBestVoted = false; //Should be read from database
+	if( $scope.id == $rootScope.bestVoteNum ){
+		$scope.isBestVoted = true;
+	}
+	else{
+		$scope.isBestVoted = false;
+	}
 
 	$scope.changeClass = function(){
+		console.log("IN");
    		$scope.isBestVoted = !$scope.isBestVoted;
     };
 
     $scope.confirmVote = function(){
-    	if( $scope.isBestVoted == false && $rootScope.bestVoteStatus == false ){
+    	if( $scope.isBestVoted == false && $rootScope.bestVoteNum == 0 ){
     		$scope.showConfirm1();
     	}
-    	else if( $scope.isBestVoted == false && $rootScope.bestVoteStatus == true ){
+    	else if( $scope.isBestVoted == false && $rootScope.bestVoteNum != 0 ){
     		$scope.showConfirm2();
 
     	}
@@ -110,7 +117,8 @@ angular.module('starter.controllers', [])
 	   confirmPopup.then(function(res) {
 	     if(res) {
 	   		$scope.changeClass();
-	   		$rootScope.bestVoteStatus = true;
+	   		$rootScope.bestVoteNum = $scope.id;
+	   		console.log($rootScope.bestVoteNum)
 	     }
 	   });
  	};
@@ -123,6 +131,7 @@ angular.module('starter.controllers', [])
 	   confirmPopup.then(function(res) {
 	     if(res) {
 	   		$scope.changeClass();
+	   		$rootScope.bestVoteNum = $scope.id;
 	     }
 	   });
  	};

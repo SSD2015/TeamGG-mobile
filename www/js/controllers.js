@@ -6,10 +6,9 @@ angular.module('starter.controllers', [])
 			$rootScope.user = data;
 		}
 	});
-
-	$rootScope.bestVoteStatus = false;
 	$rootScope.bestVoteNum = 0;
 })
+
 .controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading){
 	$scope.username = "";
 	$scope.password = "";
@@ -61,24 +60,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope ){
-	if( $rootScope.username == "" || $rootScope.username == "Guest"){
-		$rootScope.username = "Guest"
-		$scope.tagName = "Sign In";
-	}
-	else{
-		$scope.tagName  = "Log Out";
-	}
-	$scope.logout = function(){
-		$state.go("base.login");
-	}
-	$scope.in_out = function(){
-		if( $rootScope.username == "Guest" ){
-			$state.go("base.login");
-		}	
-		else{
-			$scope.logout();
-		}
-	}
+		
 })
 
 .controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){
@@ -91,7 +73,6 @@ angular.module('starter.controllers', [])
 	}
 
 	$scope.changeClass = function(){
-		console.log("IN");
    		$scope.isBestVoted = !$scope.isBestVoted;
     };
 
@@ -144,7 +125,7 @@ angular.module('starter.controllers', [])
 	   confirmPopup.then(function(res) {
 	     if(res) {
 	   		$scope.changeClass();
-	   		$rootScope.bestVoteStatus = false;
+	   		$rootScope.bestVoteNum = 0;
 	     }
 	   });
  	};

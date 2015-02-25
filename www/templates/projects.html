@@ -2,7 +2,6 @@
 	<ion-content has-bouncing="true">
 		<div class="applogo">
 			<h1>Exceed Vote!!!</h1>
-			<h2>Username : {{username}}</h2>
 			<h4>Voting close at 16:00</h4>
 		</div>
 		<ion-list>
@@ -28,5 +27,9 @@
 				<p>The best team ever</p>
 			</ion-item>
 		</ion-list>
+		<button class="button button-block button-stable" id="proLog" ng-click="in_out()">
+				<h3>{{tagName}}</h3>
+				<h6>Username : {{username}}</h6>
+		</button>
 	</ion-content>
 </ion-view>

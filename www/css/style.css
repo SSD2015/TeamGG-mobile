@@ -13,6 +13,9 @@
 	color: white;
 }
 
+#proLog h3, #proLog h6{
+	color: #989898;
+}
 .item-note{
 	color: #20A337;
 }

@@ -28,26 +28,31 @@
 			<ion-item class="item-divider">
 				Voting
 			</ion-item>
-			<ion-item class="item-icon-right">
-				Category A
-				<div class="icon">
-					<i class="ion-ios7-star"></i>
-					<i class="ion-ios7-star"></i>
-					<i class="ion-ios7-star-outline"></i>
-				</div>
-			</ion-item>
-			<ion-item class="item-icon-right">
-				Category B
-				<div class="icon">
-					<i class="ion-ios7-star"></i>
-					<i class="ion-ios7-star"></i>
-					<i class="ion-ios7-star-outline"></i>
-				</div>
-			</ion-item>
-			<ion-item class = "item-icon-right" ng-click="confirmVote()">
-				Vote to be Best App
-				<i class="icon" ng-class= "{false: 'ion-ios7-circle-outline', true: 'ion-ios7-checkmark-outline'}[bestVoteStatus]" ></i>
-			</ion-item>
+			<div ng-if="!user" class="voteerror">
+				<a ui-sref="base.login()" ui-sref-opts="{location: 'replace'}">Login to vote</a>
+			</div>
+			<div ng-if="user">
+				<ion-item class="item-icon-right">
+					Category A
+					<div class="icon">
+						<i class="ion-ios7-star"></i>
+						<i class="ion-ios7-star"></i>
+						<i class="ion-ios7-star-outline"></i>
+					</div>
+				</ion-item>
+				<ion-item class="item-icon-right">
+					Category B
+					<div class="icon">
+						<i class="ion-ios7-star"></i>
+						<i class="ion-ios7-star"></i>
+						<i class="ion-ios7-star-outline"></i>
+					</div>
+				</ion-item>
+				<ion-item class = "item-icon-right" ng-click="confirmVote()">
+					Vote to be Best App
+					<i class="icon" ng-class= "{false: 'ion-ios7-circle-outline', true: 'ion-ios7-checkmark-outline'}[bestVoteStatus]" ></i>
+				</ion-item>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

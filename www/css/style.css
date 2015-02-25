@@ -35,3 +35,18 @@
 .description{
 	white-space: normal !important;
 }
+.help{
+	color: #aaa;
+}
+.username{
+	text-align: right;
+	margin-right: 10px;
+}
+.voteerror a{
+	display: block;
+	text-align: center;
+	font-size: 16pt;
+	color: #bbb;
+	padding: 40px 0;
+	text-decoration: none;
+}

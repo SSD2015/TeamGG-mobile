@@ -1,21 +1,55 @@
 angular.module('starter.controllers', [])
-.controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $ionicPopup){
+.constant('SERVER', 'http://gg.whs.in.th/api/')
+.controller('BaseCtrl', function($http, SERVER, $rootScope){
+	$http.get(SERVER + "auth/check").success(function(data){
+		if(data && data.username){
+			$rootScope.user = data;
+		}
+	});
+
+	$rootScope.bestVoteStatus = false;
+})
+.controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading){
 	$scope.username = "";
+	$scope.password = "";
+
+	// check for login cookie
+	$ionicLoading.show();
+	$http.get(SERVER + "auth/check").then(function(data){
+		data = data.data;
+		if(data && data.username){
+			$rootScope.user = data;
+			$state.go("base.projectlist", {"location": "replace"});
+		}
+	}, function(data){
+		$ionicPopup.alert({
+			title: "Cannot connect to server",
+			template: "Check your internet connection"
+		});
+	}).finally(function(){
+		$ionicLoading.hide();
+	});
+
 	$scope.submit = function(){
-		$rootScope.username = $scope.username;
-		$rootScope.bestVoteStatus = false;
-		$state.go("base.projectlist");
-	};
-	$scope.showAlert1 = function() {
-	   var alertPopup = $ionicPopup.alert({
-	     title: 'Login as Guest',
-	     template: 'You can only watch the application'
-	   });
-	   alertPopup.then(function(res) {
-	     $rootScope.username = "Guest";
-	     $rootScope.bestVoteStatus = false;
-	     $state.go("base.projectlist");
-	   });
+		$ionicLoading.show();
+		$http.post(SERVER + "auth/login", {
+			username: $scope.username,
+			password: $scope.password
+		}).then(function(data){
+			$rootScope.user = data.data;
+			$state.go("base.projectlist", {"location": "replace"});
+		}, function(data){
+			var message = "Server error";
+			if(data.status === 403){
+				message = "Invalid username or password";
+			}
+			$ionicPopup.alert({
+				title: "Cannot log you in",
+				template: message
+			});
+		}).finally(function(){
+			$ionicLoading.hide();
+		});
 	};
 
 	$scope.showAlert2 = function(){

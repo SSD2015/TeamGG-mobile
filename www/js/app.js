@@ -42,7 +42,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .state('base.projectlist', {
     url: '/list',
     templateUrl: 'templates/projects.html',
-    //controller: 'ProjectListCtrl',
+    controller: 'ProjectListCtrl',
   })
   .state('base.project', {
     url: '/{id}', ///xqz/{id2}

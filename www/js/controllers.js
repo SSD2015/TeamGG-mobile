@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
 	$scope.username = "";
 	$scope.submit = function(){
 		$rootScope.username = $scope.username;
+		$rootScope.bestVoteStatus = false;
 		$state.go("base.projectlist");
 	};
 	$scope.showAlert = function() {
@@ -16,19 +17,48 @@ angular.module('starter.controllers', [])
 	   });
 	};
 })
-.controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup ){
+
+.controller('ProjectListCtrl', function( $state, $stateParams ){
+	
+})
+
+.controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){
 	$scope.id = $stateParams.id;
-	$scope.showConfirm = function() {
+
+	$scope.changeClass = function(){
+   		$rootScope.bestVoteStatus = !$rootScope.bestVoteStatus;
+    };
+
+    $scope.confirmVote = function(){
+    	if($rootScope.bestVoteStatus == false ){
+    		$scope.showConfirm1();
+    	}
+    	else{
+    		$scope.showConfirm2();
+    	}
+    };
+
+	$scope.showConfirm1 = function() {
 	   var confirmPopup = $ionicPopup.confirm({
-	     	title: 'Consume Ice Cream',
-	     	template: 'Are you sure you want to eat this ice cream?'
+	     		title: 'Vote this Application',
+	     		template: 'Are you sure you want to vote?'
 	   });
 	   confirmPopup.then(function(res) {
 	     if(res) {
-	       console.log('You are sure');
-	     } else {
-	       console.log('You are not sure');
+	   		$scope.changeClass();
 	     }
 	   });
- };
+ 	};
+
+ 	$scope.showConfirm2 = function() {
+	   var confirmPopup = $ionicPopup.confirm({
+	     		title: 'Vote this Application',
+	     		template: 'Are you sure '
+	   });
+	   confirmPopup.then(function(res) {
+	     if(res) {
+	   		$scope.changeClass();
+	     }
+	   });
+ 	};
 });

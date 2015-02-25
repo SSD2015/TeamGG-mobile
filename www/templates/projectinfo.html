@@ -44,9 +44,9 @@
 					<i class="ion-ios7-star-outline"></i>
 				</div>
 			</ion-item>
-			<ion-item class="item-icon-right" ng-click="voted=!voted">
-				Category C
-				<i class="icon" ng-class="{'ion-ios7-circle-outline': !voted, 'ion-ios7-checkmark-outline': voted}" ng-click="showConfirm()"></i>
+			<ion-item class = "item-icon-right" ng-click="confirmVote()">
+				Vote to be Best App
+				<i class="icon" ng-class= "{false: 'ion-ios7-circle-outline', true: 'ion-ios7-checkmark-outline'}[bestVoteStatus]" ></i>
 			</ion-item>
 		</div>
 	</ion-content>

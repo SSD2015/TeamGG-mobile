@@ -1,10 +1,14 @@
-<ion-view>
+<ion-view hide-nav-bar="true">
+	<ion-header-bar align-title="center" class="bar-balanced">
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <!-- <a ui-sref="base.projectlist()" class="button" ui-sref-opts="{location:'replace'}">Skip</a> -->
+            <span ng-if="user">Logged in as <strong>{{user.name}}</strong></span>
+			<span ng-if="!user">Not logged in</span>
+        </div>
+    </ion-header-bar>
 	<ion-content has-bouncing="true">
 		<div class="applogo">
-			<div class="username">
-				<span ng-if="user">Logged in as <strong>{{user.name}}</strong></span>
-				<span ng-if="!user">Not logged in</span>
-			</div>
 			<h1>Exceed Vote!!!</h1>
 			<h4>Voting close at 16:00</h4>
 		</div>
@@ -18,26 +22,16 @@
 				<div class="bestof balanced">Voted Best of Team</div>
 				<span class="badge badge-balanced">Voted</span>
 			</ion-item>
-			<ion-item class="item-thumbnail-left" ui-sref="base.project({id: 2})">
-				<img src="http://placehold.it/80x80">
-				<h2>Project lnw</h2>
-				<h4>by Team GG</h4>
-				<p>The best team ever</p>
-				<span class="badge badge-balanced">Voted</span>
-			</ion-item>
-			<ion-item class="item-thumbnail-left" ui-sref="base.project({id: 3})">
-				<img src="http://placehold.it/80x80">
-				<h2>Project lnw</h2>
-				<h4>by Team GG</h4>
-				<p>The best team ever</p>
-			</ion-item>
 			-->
 			<ion-item class="item-thumbnail-left" ng-repeat="project in projects" ui-sref="base.project({id: project.id})">
 				<img src="http://placehold.it/80x80">
 				<h2>{{project.name}}</h2>
 				<h4>by #{{project.group.id}} {{project.group.name}}</h4>
 			</ion-item>
-
 		</ion-list>
+		<div class="inout">
+			<button class="button button-block button-balanced"  ng-if="user" ng-click="logout()">Sign Out</button>
+			<button class="button button-block button-balanced"  ng-if="!user" ng-click="logout()">Sign In</button>
+		</div>
 	</ion-content>
 </ion-view>

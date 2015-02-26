@@ -63,9 +63,17 @@ angular.module('starter.controllers', [])
 	$http.get(SERVER + "project").success(function(data){
 		if(data){
 			$scope.projects = data;
-			//console.log($scope.project);
 		}
 	});
+
+	$scope.logout = function(){
+		$http.post(SERVER + "auth/logout", {
+			success: true
+		}).success(function(data){
+			$rootScope.user = data.data;
+			$state.go("base.login");
+		});
+	}
 })
 
 .controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){

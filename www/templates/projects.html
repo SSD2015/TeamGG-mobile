@@ -9,9 +9,10 @@
 			<h4>Voting close at 16:00</h4>
 		</div>
 		<ion-list>
-			<ion-item class="item-thumbnail-left" ui-sref="base.project({id: 1})"> <!--, id2: 'asdfsdf'-->
+			<!--
+			<ion-item class="item-thumbnail-left" ui-sref="base.project({id: 1})"> <, id2: 'asdfsdf'
 				<img src="http://placehold.it/80x80">
-				<h2>Project lnw</h2>
+				<h2>{{projects[0].name}}</h2>
 				<h4>by Team GG</h4>
 				<p>The best team ever</p>
 				<div class="bestof balanced">Voted Best of Team</div>
@@ -30,6 +31,13 @@
 				<h4>by Team GG</h4>
 				<p>The best team ever</p>
 			</ion-item>
+			-->
+			<ion-item class="item-thumbnail-left" ng-repeat="project in projects" ui-sref="base.project({id: project.id})">
+				<img src="http://placehold.it/80x80">
+				<h2>{{project.name}}</h2>
+				<h4>by #{{project.group.id}} {{project.group.name}}</h4>
+			</ion-item>
+
 		</ion-list>
 	</ion-content>
 </ion-view>

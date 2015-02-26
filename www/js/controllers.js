@@ -59,8 +59,13 @@ angular.module('starter.controllers', [])
 	} 
 })
 
-.controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope ){
-		
+.controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope, $http, SERVER ){
+	$http.get(SERVER + "project").success(function(data){
+		if(data){
+			$scope.projects = data;
+			//console.log($scope.project);
+		}
+	});
 })
 
 .controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){

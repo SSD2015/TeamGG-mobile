@@ -39,6 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     url: '/',
     templateUrl: 'templates/login.html',
     controller: 'LoginCtrl',
+    cache: false
   })
   .state('base.projectlist', {
     url: '/list',

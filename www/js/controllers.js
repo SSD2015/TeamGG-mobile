@@ -9,9 +9,18 @@ angular.module('starter.controllers', [])
 	$rootScope.bestVoteNum = 0;
 })
 
-.controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading){
+.controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading, $ionicHistory){
 	$scope.username = "";
 	$scope.password = "";
+
+	var redirect = function(noAnimation){
+		$ionicHistory.nextViewOptions({
+			disableAnimate: noAnimation,
+			disableBack: true,
+			historyRoot: true
+		});
+		$state.go("base.projectlist", {}, {"location": "replace"});
+	};
 
 	// check for login cookie
 	$ionicLoading.show();
@@ -19,7 +28,7 @@ angular.module('starter.controllers', [])
 		data = data.data;
 		if(data && data.username){
 			$rootScope.user = data;
-			$state.go("base.projectlist", {"location": "replace"});
+			redirect(true);
 		}
 	}, function(data){
 		$ionicPopup.alert({
@@ -37,7 +46,7 @@ angular.module('starter.controllers', [])
 			password: $scope.password
 		}).then(function(data){
 			$rootScope.user = data.data;
-			$state.go("base.projectlist", {"location": "replace"});
+			redirect();
 		}, function(data){
 			var message = "Server error";
 			if(data.status === 403){
@@ -51,15 +60,9 @@ angular.module('starter.controllers', [])
 			$ionicLoading.hide();
 		});
 	};
-
-	$scope.showAlert2 = function(){
-		var alertPopup = $ionicPopup.alert({
-			title: "Please Enter Username",
-		});
-	} 
 })
 
-.controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope, $http, SERVER ){
+.controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope, $http, SERVER, $ionicHistory){
 	$http.get(SERVER + "project").success(function(data){
 		if(data){
 			$scope.projects = data;
@@ -71,7 +74,11 @@ angular.module('starter.controllers', [])
 			success: true
 		}).success(function(data){
 			$rootScope.user = data.data;
-			$state.go("base.login");
+			$ionicHistory.nextViewOptions({
+				disableBack: true,
+				historyRoot: true
+			});
+			$state.go("base.login", {}, {"location": "replace"});
 		});
 	}
 })

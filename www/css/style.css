@@ -38,10 +38,6 @@
 .help{
 	color: #aaa;
 }
-.username{
-	text-align: right;
-	margin-right: 10px;
-}
 .voteerror a{
 	display: block;
 	text-align: center;
@@ -49,4 +45,7 @@
 	color: #bbb;
 	padding: 40px 0;
 	text-decoration: none;
+}
+.loginstatus{
+	margin-top: 5px;
 }

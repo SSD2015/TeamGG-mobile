@@ -6,7 +6,13 @@ angular.module('starter.controllers', [])
 			$rootScope.user = data;
 		}
 	});
-	$rootScope.bestVoteNum = 0;
+	$http.get(SERVER + "categories").success(function(data){
+		$rootScope.voteCategory = {};
+		// index by id
+		for(var i = 0; i < data.length; i++){
+			$rootScope.voteCategory[data[i].id] = data[i];
+		}
+	});
 })
 
 .controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading, $ionicHistory){
@@ -19,7 +25,7 @@ angular.module('starter.controllers', [])
 			disableBack: true,
 			historyRoot: true
 		});
-		$state.go("base.projectlist", {}, {"location": "replace"});
+		$state.go("base.projectlist.view", {}, {"location": "replace"});
 	};
 
 	// check for login cookie
@@ -62,13 +68,19 @@ angular.module('starter.controllers', [])
 	};
 })
 
-.controller('ProjectListCtrl', function( $state, $stateParams, $scope, $rootScope, $http, SERVER, $ionicHistory){
-	$http.get(SERVER + "project").success(function(data){
-		if(data){
-			$scope.projects = data;
-		}
-	});
+.controller('ProjectListCtrl', function($http, SERVER, $scope){
+	$scope.reloadProject = function(){
+		return $http.get(SERVER + "project").success(function(data){
+			if(data){
+				$scope.projects = data;
+			}
+		});
+	};
 
+	$scope.reloadProject();
+})
+
+.controller('ProjectListViewCtrl', function($scope, $http, SERVER, $rootScope, $ionicHistory, $state){
 	$scope.logout = function(){
 		$http.post(SERVER + "auth/logout", {
 			success: true
@@ -83,67 +95,85 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER){
+.controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){
 	$scope.id = $stateParams.id;
+	$scope.voteLoad = {};
 
-	$http.get(SERVER + "project").success(function(data1){
-		if(data1){
-			$scope.projects = data1;
-			$scope.project = $scope.projects[$scope.id-1];
-		}
-		$http.get(SERVER + "categories").success(function(data2){
-			if(data2){
-				$scope.categories = data2;
-				$scope.voteFor = [];
-				for( var i = 0; i < $scope.categories.length; i++ ){
-					if( $scope.project.vote[i+1] ){
-						$scope.voteFor[i] = $scope.project.vote[i+1].score;
-					}
-				}
-				$scope.bestVote = function( categoryId ){
-					var canVote = true;
-					var votedProject = 0;
-					for( var i = 0; i < $scope.projects.length; i++ ){
-						console.log("check");
-						if( i != ($scope.id-1) ){
-							if( $scope.projects[i].vote[categoryId] ){
-								canVote = false;
-								votedProject = i+1;
-								break;
-							}
-						}
-					}
-					if( canVote == false ){
-						var confirmPopup = $ionicPopup.confirm({
-							title: "You have already vote" + $scope.categories[categoryId-1].name + " in " + votedProject,
-							template: "You want to change ?"
-						});
-						confirmPopup.then(function(res) {
-					    	if(res) {
-					       		$scope.voteFor[categoryId-1] = 1;
-								$http.post(SERVER + "project/" + $scope.id + "/vote/" + categoryId, {
-									category : categoryId,
-									score : 1
-								}).success(function(data3){
-									$state.go($state.current, {}, {reload: true});
-								});
-					    	}	   	
-					    });
+	// used for saving vote status back
+	var index = -1;
 
-					}
-					else{
-						$scope.voteFor[categoryId-1] = 1;
-						$http.post(SERVER + "project/" + $scope.id + "/vote/" + categoryId, {
-							category : categoryId,
-							score : 1
-						}).success(function(data3){
-							$state.go($state.current, {}, {reload: true});
-						});
-					}
-				}
+	// find cached data
+	if($scope.projects !== undefined){
+		for(var i = 0; i < $scope.projects.length; i++){
+			if($scope.projects[i].id == $scope.id){
+				$scope.project = $scope.projects[i];
+				index  = i;
+				break;
 			}
-		});
+		}
+	}
+
+	$http.get(SERVER + "project/" + $stateParams.id).success(function(data){
+		$scope.project = data;
+		// don't use the project vote status, it is unreliable
 	});
 
+	$scope.getVoted = function(catId){
+		if($scope.projects === undefined){
+			return false;
+		}
+		for(var i = 0; i < $scope.projects.length; i++){
+			if($scope.projects[i].vote[catId] !== undefined){
+				return $scope.projects[i];
+			}
+		}
+		return false;
+	};
 
+	var vote = function(catId){
+		$scope.voteLoad[catId] = true;
+		$http.post(SERVER + "project/" + $scope.id + "/vote/" + catId, {
+			category: catId,
+			score : 1
+		}).then(function(data){
+			$scope.project.vote[catId] = data;
+			
+			// reload project list
+			return $scope.reloadProject();
+		}, function(){
+			$ionicPopup.alert({
+				title: "Network error",
+				template: "Your vote are not registered"
+			});
+		}).finally(function(){
+			delete $scope.voteLoad[catId];
+		});
+	};
+
+	$scope.bestVote = function(catId){
+		var category = $rootScope.voteCategory[catId];
+
+		if(category.type == "BEST_OF"){
+			var voted = $scope.getVoted(catId);
+
+			if(voted && voted.id != $scope.id){
+				var confirmPopup = $ionicPopup.confirm({
+					title: "Changing vote",
+					template: "You have voted <strong>" + $sanitize(voted.name) + "</strong> in the category <strong>" + $sanitize(category.name) + "</strong><br>Do you want to change your vote?"
+				});
+				confirmPopup.then(function(res) {
+					if(res) {
+						vote(catId);
+					}	   	
+				});
+			}else if(voted && voted.id == $scope.id){
+				$ionicPopup.alert({
+					title: "Already voted",
+					template: "You\'ve already voted for this project. To change, place a vote in this category for other project."
+				});
+			}else{
+				vote(catId);
+			}
+		}
+	};
 });

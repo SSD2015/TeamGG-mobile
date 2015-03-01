@@ -42,15 +42,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     cache: false
   })
   .state('base.projectlist', {
-    url: '/list',
-    templateUrl: 'templates/projects.html',
+    abstract: true,
     controller: 'ProjectListCtrl',
+    template: '<ion-nav-view />',
   })
-  .state('base.project', {
-    url: '/{id}', ///xqz/{id2}
-    templateUrl: 'templates/projectinfo.html',
-    controller: 'ProjectInfoCtrl'
-  });;
+  .state('base.projectlist.view', {
+    url: '/project',
+    templateUrl: 'templates/projects.html',
+    controller: 'ProjectListViewCtrl',
+  })
+  .state('base.projectlist.project', {
+    url: '/{id}',
+    views: {
+      '@base.projectlist': {
+        templateUrl: 'templates/projectinfo.html',
+        controller: 'ProjectInfoCtrl'
+      }
+    }
+  });
 
   $urlRouterProvider.otherwise('/');
 

@@ -1,4 +1,4 @@
-<ion-view view-title="Project lnw">
+<ion-view view-title="{{project.name}}">
 	<ion-content has-bouncing="true">
 		<ion-slide-box class="screenshot">
 			<ion-slide>
@@ -21,19 +21,10 @@
 				<a ui-sref="base.login()" ui-sref-opts="{location: 'replace'}">Login to vote</a>
 			</div>
 			<div ng-if="user">
-				<!-- <ion-item class="item-icon-right" ng-repeat="category in categories">
+				<ion-item class = "item-icon-right" ng-repeat="category in voteCategory" ng-click="bestVote(category.id)">
 					{{category.name}}
-					<div class="icon">
-						<i class="ion-ios7-star"></i>
-						<i class="ion-ios7-star"></i>
-						<i class="ion-ios7-star-outline"></i>
-					</div>
-				</ion-item> -->
-				<ion-item class = "item-icon-right" ng-repeat="category in categories"ng-click="bestVote(category.id)">
-					{{category.name}}
-					<i class="icon" ng-class= "{0 : 'ion-ios7-circle-outline' 
-											,undefined: 'ion-ios7-circle-outline'
-											,1: 'ion-ios7-checkmark-outline'} [voteFor[category.id-1]]" >
+					<i class="icon" ng-class="{'ion-checkmark': !voteLoad[category.id] && getVoted(category.id).id == project.id,
+											'ion-load-d': voteLoad[category.id]}" >
 					</i>
 				</ion-item>
 			</div>

@@ -22,7 +22,7 @@
 				<span class="badge badge-balanced">Voted</span>
 			</ion-item>
 			-->
-			<ion-item class="item-thumbnail-left" ng-repeat="project in projects" ui-sref="base.project({id: project.id})">
+			<ion-item class="item-thumbnail-left" ng-repeat="project in projects" ui-sref="base.projectlist.project({id: project.id})">
 				<img src="http://placehold.it/80x80">
 				<h2>{{project.name}}</h2>
 				<h4>by #{{project.group.id}} {{project.group.name}}</h4>

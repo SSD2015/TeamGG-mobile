@@ -31,7 +31,10 @@
 				</ion-item> -->
 				<ion-item class = "item-icon-right" ng-repeat="category in categories"ng-click="bestVote(category.id)">
 					{{category.name}}
-					<i class="icon" ng-class= "{0: 'ion-ios7-circle-outline', 1: 'ion-ios7-checkmark-outline'}[voteFor[category.id-1]]" ></i>
+					<i class="icon" ng-class= "{0 : 'ion-ios7-circle-outline' 
+											,undefined: 'ion-ios7-circle-outline'
+											,1: 'ion-ios7-checkmark-outline'} [voteFor[category.id-1]]" >
+					</i>
 				</ion-item>
 			</div>
 		</div>

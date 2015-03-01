@@ -94,7 +94,7 @@ angular.module('starter.controllers', [])
 		$http.get(SERVER + "categories").success(function(data2){
 			if(data2){
 				$scope.categories = data2;
-				$scope.voteFor = [0,0];
+				$scope.voteFor = [];
 				for( var i = 0; i < $scope.categories.length; i++ ){
 					if( $scope.project.vote[i+1] ){
 						$scope.voteFor[i] = $scope.project.vote[i+1].score;

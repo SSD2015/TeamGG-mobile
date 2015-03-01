@@ -4,26 +4,15 @@
 			<ion-slide>
 				<img src="https://lh6.ggpht.com/SfydR32i1zDlt4l2RTLLqfyaepck0S8tmnNJlTYo8UBNhf2Tkptyo-Ff6cGnsJn6JkM=h310-rw">
 			</ion-slide>
-			<ion-slide>
-				<img src="https://lh5.ggpht.com/j1wgGiSsRQ6wKIBzPYMHgBTI5bRODP135Ik1UuwCR02wgJg_UmXNVF6N8qS898mahw=h310-rw">
-			</ion-slide>
-			<ion-slide>
-				<img src="http://placehold.it/480x640">
-			</ion-slide>
-			<ion-slide>
-				<img src="http://placehold.it/480x640">
-			</ion-slide>
 		</ion-slide-box>
 		<ion-list>
 			<ion-item>
-				<h2>Project lnw ({{id}})</h2>
-				<h4>by Team GG</h4>
+				<h2>{{project.name}}</h2>
+				<h4>by #{{project.group.id}} {{project.group.name}}</h4>
 			</ion-item>
 			<ion-item>
 				<h3>Description</h3>
-				<p class="description">
-					Bacon ipsum dolor amet shank pork belly t-bone, ham tail doner kevin tri-tip venison. Chicken shankle ribeye rump hamburger brisket. Ground round turducken jowl filet mignon spare ribs meatball.
-				</p>
+				<p class="description">{{project.description}}</p>
 			</ion-item>
 			<ion-item class="item-divider">
 				Voting
@@ -32,25 +21,17 @@
 				<a ui-sref="base.login()" ui-sref-opts="{location: 'replace'}">Login to vote</a>
 			</div>
 			<div ng-if="user">
-				<ion-item class="item-icon-right">
-					Category A
+				<!-- <ion-item class="item-icon-right" ng-repeat="category in categories">
+					{{category.name}}
 					<div class="icon">
 						<i class="ion-ios7-star"></i>
 						<i class="ion-ios7-star"></i>
 						<i class="ion-ios7-star-outline"></i>
 					</div>
-				</ion-item>
-				<ion-item class="item-icon-right">
-					Category B
-					<div class="icon">
-						<i class="ion-ios7-star"></i>
-						<i class="ion-ios7-star"></i>
-						<i class="ion-ios7-star-outline"></i>
-					</div>
-				</ion-item>
-				<ion-item class = "item-icon-right" ng-click="confirmVote()">
-					Vote to be Best App
-					<i class="icon" ng-class= "{false: 'ion-ios7-circle-outline', true: 'ion-ios7-checkmark-outline'}[isBestVoted]" ></i>
+				</ion-item> -->
+				<ion-item class = "item-icon-right" ng-repeat="category in categories"ng-click="bestVote(category.id)">
+					{{category.name}}
+					<i class="icon" ng-class= "{0: 'ion-ios7-circle-outline', 1: 'ion-ios7-checkmark-outline'}[voteFor[category.id-1]]" ></i>
 				</ion-item>
 			</div>
 		</div>

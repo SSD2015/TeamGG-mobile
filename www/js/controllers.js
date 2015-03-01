@@ -83,70 +83,67 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('ProjectInfoCtrl', function($stateParams, $scope, $ionicPopup, $rootScope){
+.controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER){
 	$scope.id = $stateParams.id;
-	if( $scope.id == $rootScope.bestVoteNum ){
-		$scope.isBestVoted = true;
-	}
-	else{
-		$scope.isBestVoted = false;
-	}
 
-	$scope.changeClass = function(){
-   		$scope.isBestVoted = !$scope.isBestVoted;
-    };
+	$http.get(SERVER + "project").success(function(data1){
+		if(data1){
+			$scope.projects = data1;
+			$scope.project = $scope.projects[$scope.id-1];
+		}
+		$http.get(SERVER + "categories").success(function(data2){
+			if(data2){
+				$scope.categories = data2;
+				$scope.voteFor = [0,0];
+				for( var i = 0; i < $scope.categories.length; i++ ){
+					if( $scope.project.vote[i+1] ){
+						$scope.voteFor[i] = $scope.project.vote[i+1].score;
+					}
+				}
+				$scope.bestVote = function( categoryId ){
+					var canVote = true;
+					var votedProject = 0;
+					for( var i = 0; i < $scope.projects.length; i++ ){
+						console.log("check");
+						if( i != ($scope.id-1) ){
+							if( $scope.projects[i].vote[categoryId] ){
+								canVote = false;
+								votedProject = i+1;
+								break;
+							}
+						}
+					}
+					if( canVote == false ){
+						var confirmPopup = $ionicPopup.confirm({
+							title: "You have already vote" + $scope.categories[categoryId-1].name + " in " + votedProject,
+							template: "You want to change ?"
+						});
+						confirmPopup.then(function(res) {
+					    	if(res) {
+					       		$scope.voteFor[categoryId-1] = 1;
+								$http.post(SERVER + "project/" + $scope.id + "/vote/" + categoryId, {
+									category : categoryId,
+									score : 1
+								}).success(function(data3){
+									$state.go($state.current, {}, {reload: true});
+								});
+					    	}	   	
+					    });
 
-    $scope.confirmVote = function(){
-    	if( $scope.isBestVoted == false && $rootScope.bestVoteNum == 0 ){
-    		$scope.showConfirm1();
-    	}
-    	else if( $scope.isBestVoted == false && $rootScope.bestVoteNum != 0 ){
-    		$scope.showConfirm2();
+					}
+					else{
+						$scope.voteFor[categoryId-1] = 1;
+						$http.post(SERVER + "project/" + $scope.id + "/vote/" + categoryId, {
+							category : categoryId,
+							score : 1
+						}).success(function(data3){
+							$state.go($state.current, {}, {reload: true});
+						});
+					}
+				}
+			}
+		});
+	});
 
-    	}
-    	else{
-    		$scope.showConfirm3();
-    	}
-    };
 
-    //false false
-	$scope.showConfirm1 = function() {
-	   var confirmPopup = $ionicPopup.confirm({
-	     		title: 'Vote this Application',
-	     		template: 'Are you sure you want to vote?'
-	   });
-	   confirmPopup.then(function(res) {
-	     if(res) {
-	   		$scope.changeClass();
-	   		$rootScope.bestVoteNum = $scope.id;
-	   		console.log($rootScope.bestVoteNum)
-	     }
-	   });
- 	};
-
- 	$scope.showConfirm2 = function() {
-	   var confirmPopup = $ionicPopup.confirm({
-	     		title: 'Vote this Application',
-	     		template: 'Are you sure you want to change vote from ... to ... '
-	   });
-	   confirmPopup.then(function(res) {
-	     if(res) {
-	   		$scope.changeClass();
-	   		$rootScope.bestVoteNum = $scope.id;
-	     }
-	   });
- 	};
-
- 	$scope.showConfirm3 = function() {
-	   var confirmPopup = $ionicPopup.confirm({
-	     		title: 'Cancel vote  this Application',
-	     		template: 'Are you sure you want to cancel '
-	   });
-	   confirmPopup.then(function(res) {
-	     if(res) {
-	   		$scope.changeClass();
-	   		$rootScope.bestVoteNum = 0;
-	     }
-	   });
- 	};
 });

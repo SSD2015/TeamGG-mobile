@@ -2,10 +2,19 @@
 	background: #20A337;
 	color: white;
 	text-align: center;
-	padding: 25px 0;
+	padding: 10px 0;
 }
 .applogo h1, .applogo h4{
 	color: white;
+}
+
+.applogo h2{
+	text-align: right;
+	color: white;
+}
+
+#proLog h3, #proLog h6{
+	color: #989898;
 }
 .item-note{
 	color: #20A337;
@@ -25,4 +34,18 @@
 }
 .description{
 	white-space: normal !important;
+}
+.help{
+	color: #aaa;
+}
+.voteerror a{
+	display: block;
+	text-align: center;
+	font-size: 16pt;
+	color: #bbb;
+	padding: 40px 0;
+	text-decoration: none;
+}
+.loginstatus{
+	margin-top: 5px;
 }

@@ -24,6 +24,7 @@
 				<ion-item class = "item-icon-right" ng-repeat="category in voteCategory" ng-click="bestVote(category.id)">
 					{{category.name}}
 					<i class="icon" ng-class="{'ion-checkmark': !voteLoad[category.id] && getVoted(category.id).id == project.id,
+											'balanced': !voteLoad[category.id] && getVoted(category.id).id == project.id,
 											'ion-load-d': voteLoad[category.id]}" >
 					</i>
 				</ion-item>

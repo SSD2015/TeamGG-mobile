@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-.constant('SERVER', 'http://gg.whs.in.th/api/')
+.constant('SERVER', 'https://gg.whs.in.th/api/')
 .controller('BaseCtrl', function($http, SERVER, $rootScope){
 	$http.get(SERVER + "auth/check").success(function(data){
 		if(data && data.username){

@@ -51,8 +51,12 @@
 }
 .loginstatus{
 	margin-top: 5px;
-	margin-right: 10px;
+	margin-right: 15px;
 	font-weight: bold;
+}
+
+#best1{
+	margin-right: 50px;
 }
 
 @media (max-width: 400px){

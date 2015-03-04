@@ -93,12 +93,13 @@ angular.module('starter.controllers', [])
 			$state.go("base.login", {}, {"location": "replace"});
 		});
 	}
+
 })
 
 .controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){
 	$scope.id = $stateParams.id;
 	$scope.voteLoad = {};
-
+	
 	// used for saving vote status back
 	var index = -1;
 

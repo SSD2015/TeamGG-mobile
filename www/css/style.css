@@ -59,6 +59,10 @@
 	margin-right: 50px;
 }
 
+.projectsubtitle{
+	font-weight: normal;
+}
+
 @media (max-width: 400px){
 	.applogo img{
 		width: 80%;

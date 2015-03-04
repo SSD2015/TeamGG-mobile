@@ -93,7 +93,24 @@ angular.module('starter.controllers', [])
 			$state.go("base.login", {}, {"location": "replace"});
 		});
 	}
-
+	$scope.projectHasBest = function(project){
+		var result = false;
+		angular.forEach($rootScope.voteCategory, function(v, k){
+			if(v.type == "BEST_OF" && project.vote[k]){
+				result = true;
+			}
+		});
+		return result;
+	};
+	$scope.voteFinished = function(project){
+		var result = true;
+		angular.forEach($rootScope.voteCategory, function(v, k){
+			if(v.type != "BEST_OF" && project.vote[k] === undefined){
+				result = false;
+			}
+		});
+		return result;
+	}
 })
 
 .controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){

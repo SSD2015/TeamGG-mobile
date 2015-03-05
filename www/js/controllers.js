@@ -102,7 +102,7 @@ angular.module('starter.controllers', [])
 			return $http.post(SERVER + "auth/logout");
 		}).then(function(data){
 			$ionicLoading.hide();
-			$rootScope.user = {};
+			delete $rootScope.user;
 			$ionicHistory.nextViewOptions({
 				disableBack: true,
 				historyRoot: true

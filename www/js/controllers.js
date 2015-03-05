@@ -25,6 +25,7 @@ angular.module('starter.controllers', [])
 			disableBack: true,
 			historyRoot: true
 		});
+		$ionicHistory.clearCache();
 		$state.go("base.projectlist.view", {}, {"location": "replace"});
 	};
 

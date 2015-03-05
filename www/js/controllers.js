@@ -81,12 +81,28 @@ angular.module('starter.controllers', [])
 	$scope.reloadProject();
 })
 
-.controller('ProjectListViewCtrl', function($scope, $http, SERVER, $rootScope, $ionicHistory, $state){
+.controller('ProjectListViewCtrl', function($scope, $http, SERVER, $rootScope, $ionicHistory, $state, $ionicPopup, $sanitize, $ionicLoading){
 	$scope.logout = function(){
-		$http.post(SERVER + "auth/logout", {
-			success: true
-		}).success(function(data){
-			$rootScope.user = data.data;
+		if(!$rootScope.user){
+			$ionicHistory.nextViewOptions({
+				disableBack: true,
+				historyRoot: true
+			});
+			$state.go("base.login", {}, {"location": "replace"});
+			return;
+		}
+		$ionicPopup.confirm({
+			title: "Sign out",
+			template: "You're logged in as <strong>" + $sanitize($rootScope.user.username) + "</strong><br>Do you wish to sign out?"
+		}).then(function(res){
+			if(!res){
+				return;
+			}
+			$ionicLoading.show();
+			return $http.post(SERVER + "auth/logout");
+		}).then(function(data){
+			$ionicLoading.hide();
+			$rootScope.user = {};
 			$ionicHistory.nextViewOptions({
 				disableBack: true,
 				historyRoot: true
@@ -94,12 +110,36 @@ angular.module('starter.controllers', [])
 			$state.go("base.login", {}, {"location": "replace"});
 		});
 	}
+	$scope.projectHasBest = function(project){
+		if(!$rootScope.user){
+			return false;
+		}
+		var result = false;
+		angular.forEach($rootScope.voteCategory, function(v, k){
+			if(v.type == "BEST_OF" && project.vote[k]){
+				result = true;
+			}
+		});
+		return result;
+	};
+	$scope.voteFinished = function(project){
+		if(!$rootScope.user){
+			return false;
+		}
+		var result = true;
+		angular.forEach($rootScope.voteCategory, function(v, k){
+			if(v.type != "BEST_OF" && project.vote[k] === undefined){
+				result = false;
+			}
+		});
+		return result;
+	}
 })
 
 .controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){
 	$scope.id = $stateParams.id;
 	$scope.voteLoad = {};
-
+	
 	// used for saving vote status back
 	var index = -1;
 

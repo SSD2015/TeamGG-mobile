@@ -1,11 +1,14 @@
 .applogo{
-	background: #20A337;
+	background: #0a2811;
 	color: white;
 	text-align: center;
-	padding: 10px 0;
+	padding: 25px 0;
 }
 .applogo h1, .applogo h4{
 	color: white;
+}
+.applogo img{
+	width: 350px;
 }
 
 .applogo h2{
@@ -32,8 +35,8 @@
 	margin: auto;
 	display: block;
 }
-.description{
-	white-space: normal !important;
+.item .description{
+	white-space: normal;
 }
 .help{
 	color: #aaa;
@@ -48,4 +51,20 @@
 }
 .loginstatus{
 	margin-top: 5px;
+	margin-right: 15px;
+	font-weight: bold;
+}
+
+#best1{
+	margin-right: 50px;
+}
+
+.projectsubtitle{
+	font-weight: normal;
+}
+
+@media (max-width: 400px){
+	.applogo img{
+		width: 80%;
+	}
 }

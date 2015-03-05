@@ -1,8 +1,10 @@
-# Exceed Vote (mobile)
+![Exceed Vote logo](logo.png)
+
+[![Codacy Badge](https://www.codacy.com/project/badge/89fdb92d305e4900b164b8be2d450a17)](https://www.codacy.com/public/manatsawin/TeamGG-mobile)
 
 This repository contains the mobile part of Exceed Vote by TeamGG.
 
-The server side is located at [SSD2015/TeamGG](https://github.com/SSD2015/TeamGG). All issues should be reported there.
+The server side is located at [SSD2015/TeamGG](https://github.com/SSD2015/TeamGG). All issues of both repository should be reported there.
 
 ## Running
 

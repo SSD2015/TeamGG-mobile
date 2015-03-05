@@ -8,7 +8,7 @@
 		<ion-list>
 			<ion-item>
 				<h2>{{project.name}}</h2>
-				<h4>by #{{project.group.id}} {{project.group.name}}</h4>
+				<h4 class="projectsubtitle">by #{{project.group.id}} {{project.group.name}}</h4>
 			</ion-item>
 			<ion-item>
 				<h3>Description</h3>
@@ -24,6 +24,7 @@
 				<ion-item class = "item-icon-right" ng-repeat="category in voteCategory" ng-click="bestVote(category.id)">
 					{{category.name}}
 					<i class="icon" ng-class="{'ion-checkmark': !voteLoad[category.id] && getVoted(category.id).id == project.id,
+											'balanced': !voteLoad[category.id] && getVoted(category.id).id == project.id,
 											'ion-load-d': voteLoad[category.id]}" >
 					</i>
 				</ion-item>

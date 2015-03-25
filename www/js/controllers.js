@@ -67,6 +67,10 @@ angular.module('starter.controllers', [])
 			$ionicLoading.hide();
 		});
 	};
+
+	$scope.skip = function(){
+		redirect();
+	};
 })
 
 .controller('ProjectListCtrl', function($http, SERVER, $scope){

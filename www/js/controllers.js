@@ -221,17 +221,15 @@ angular.module('starter.controllers', [])
 
 	$scope.starVote = function(catId, scores){
 		var category = $rootScope.voteCategory[catId];
-
-		$scope.voteLoad[catId] = true;
-		$scope.project.vote[catId].score = scores;
 		$http.post(SERVER + "project/" + $scope.id + "/vote/" + catId, {
 			category: catId,
 			score : scores
-		}).success(function(){
+		}).then(function(data){
 			$ionicPopup.alert({
 				title: "Vote for <strong>" + $sanitize(category.name) + "</strong>",
 				template: "Score : <string>" + scores + "</strong>"
 			});
-		})
+			$scope.project.vote[catId].score = scores;
+		});
 	}
 });

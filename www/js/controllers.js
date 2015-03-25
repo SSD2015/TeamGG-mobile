@@ -139,6 +139,7 @@ angular.module('starter.controllers', [])
 .controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){
 	$scope.id = $stateParams.id;
 	$scope.voteLoad = {};
+	$scope.star = [1,2,3,4,5];
 	
 	// used for saving vote status back
 	var index = -1;
@@ -196,7 +197,7 @@ angular.module('starter.controllers', [])
 
 		if(category.type == "BEST_OF"){
 			var voted = $scope.getVoted(catId);
-
+		
 			if(voted && voted.id != $scope.id){
 				var confirmPopup = $ionicPopup.confirm({
 					title: "Changing vote",
@@ -217,4 +218,20 @@ angular.module('starter.controllers', [])
 			}
 		}
 	};
+
+	$scope.starVote = function(catId, scores){
+		var category = $rootScope.voteCategory[catId];
+
+		$scope.voteLoad[catId] = true;
+		$scope.project.vote[catId].score = scores;
+		$http.post(SERVER + "project/" + $scope.id + "/vote/" + catId, {
+			category: catId,
+			score : scores
+		}).success(function(){
+			$ionicPopup.alert({
+				title: "Vote for <strong>" + $sanitize(category.name) + "</strong>",
+				template: "Score : <string>" + scores + "</strong>"
+			});
+		})
+	}
 });

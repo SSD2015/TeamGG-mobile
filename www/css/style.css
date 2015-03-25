@@ -63,6 +63,10 @@
 	font-weight: normal;
 }
 
+.clickable{
+	cursor: pointer;
+}
+
 @media (max-width: 400px){
 	.applogo img{
 		width: 80%;

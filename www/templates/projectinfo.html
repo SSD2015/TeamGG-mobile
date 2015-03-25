@@ -23,10 +23,11 @@
 			<div ng-if="user">
 				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
 					{{category.name}}
-					<div class="icon">
-						<i class = "star" ng-class="{'ion-ios7-star energized' : i <= project.vote[category.id].score, 
+					<div class="icon" ng-hide="voteLoad[category.id]">
+						<i class="star clickable" ng-class="{'ion-ios7-star energized' : i <= project.vote[category.id].score, 
 													'ion-ios7-star-outline energized': i > project.vote[category.id].score || project.vote[category.id] === undefined }" ng-repeat = "i in star" ng-click= "starVote(category.id, i) "></i>
 					</div>
+					<i class="icon ion-load-d" ng-show="voteLoad[category.id]"></i>
 				</ion-item>
 				<ion-item class = "item-icon-right" ng-repeat="category in voteCategory" ng-if= "category.type == 'BEST_OF' " ng-click="bestVote(category.id)">
 					{{category.name}}

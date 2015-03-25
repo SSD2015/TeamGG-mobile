@@ -172,13 +172,13 @@ angular.module('starter.controllers', [])
 		return false;
 	};
 
-	var vote = function(catId){
+	var vote = function(catId, score){
 		$scope.voteLoad[catId] = true;
 		$http.post(SERVER + "project/" + $scope.id + "/vote/" + catId, {
 			category: catId,
-			score : 1
+			score : score || 1
 		}).then(function(data){
-			$scope.project.vote[catId] = data;
+			$scope.project.vote[catId] = data.data;
 			
 			// reload project list
 			return $scope.reloadProject();
@@ -220,16 +220,6 @@ angular.module('starter.controllers', [])
 	};
 
 	$scope.starVote = function(catId, scores){
-		var category = $rootScope.voteCategory[catId];
-		$http.post(SERVER + "project/" + $scope.id + "/vote/" + catId, {
-			category: catId,
-			score : scores
-		}).then(function(data){
-			$ionicPopup.alert({
-				title: "Vote for <strong>" + $sanitize(category.name) + "</strong>",
-				template: "Score : <string>" + scores + "</strong>"
-			});
-			$scope.project.vote[catId].score = scores;
-		});
+		vote(catId, scores);
 	}
 });

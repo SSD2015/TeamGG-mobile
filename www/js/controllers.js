@@ -85,7 +85,7 @@ angular.module('starter.controllers', [])
 	$scope.reloadProject();
 })
 
-.controller('ProjectListViewCtrl', function($scope, $http, SERVER, $rootScope, $ionicHistory, $state, $ionicPopup, $sanitize, $ionicLoading){
+.controller('ProjectListViewCtrl', function($scope, $http, SERVER, $rootScope, $ionicHistory, $state, $ionicPopup, $sanitize, $ionicLoading, $q){
 	$scope.logout = function(){
 		if(!$rootScope.user){
 			$ionicHistory.nextViewOptions({
@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
 			template: "You're logged in as <strong>" + $sanitize($rootScope.user.username) + "</strong><br>Do you wish to sign out?"
 		}).then(function(res){
 			if(!res){
-				return;
+				return $q.reject();
 			}
 			$ionicLoading.show();
 			return $http.post(SERVER + "auth/logout");

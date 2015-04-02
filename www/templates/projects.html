@@ -22,7 +22,7 @@
 				<i class="icon ion-ribbon-b energized" ng-if="projectHasBest(project) && voteFinished(project)"></i>
 				<i class="icon ion-checkmark balanced" ng-if="!projectHasBest(project) && voteFinished(project)"></i>
 				<div ng-repeat="category in voteCategory">
-					<h4 ng-if="project.vote[category.id] "><strong class="energized">{{category.name}}</strong></h4> 
+					<h4 ng-if="project.vote[category.id] && category.type != 'STAR' "><strong class="energized">{{category.name}}</strong></h4> 
 				</div>
 			</ion-item>
 		</ion-list>

@@ -144,7 +144,6 @@ angular.module('starter.controllers', [])
 	$scope.id = $stateParams.id;
 	$scope.voteLoad = {};
 	$scope.star = [1,2,3,4,5];
-	
 	// used for saving vote status back
 	var index = -1;
 

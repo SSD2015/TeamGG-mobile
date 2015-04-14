@@ -1,3 +1,6 @@
+// ugly hack for https://trello.com/c/o4W230OH/40-show-back-button-default-on-empty-history-stack
+window.location.hash = '#/';
+
 angular.module('starter.controllers', [])
 .constant('SERVER', 'https://gg.whs.in.th/api/')
 .controller('BaseCtrl', function($http, SERVER, $rootScope){
@@ -140,7 +143,7 @@ angular.module('starter.controllers', [])
 	}
 })
 
-.controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize){
+.controller('ProjectInfoCtrl', function( $state, $stateParams, $scope, $ionicPopup, $rootScope, $http, SERVER, $rootScope, $sanitize, $ionicSlideBoxDelegate){
 	$scope.id = $stateParams.id;
 	$scope.voteLoad = {};
 	$scope.star = [1,2,3,4,5];
@@ -160,6 +163,7 @@ angular.module('starter.controllers', [])
 
 	$http.get(SERVER + "project/" + $stateParams.id).success(function(data){
 		$scope.project = data;
+		$ionicSlideBoxDelegate.$getByHandle('screenshot').update();
 		// don't use the project vote status, it is unreliable
 	});
 

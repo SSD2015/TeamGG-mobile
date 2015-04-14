@@ -1,19 +1,19 @@
 <ion-view view-title="{{project.name}}">
 	<ion-content has-bouncing="true">
-		<ion-slide-box class="screenshot" >
+		<ion-slide-box class="screenshot" delegate-handle="screenshot">
 			<ion-slide ng-repeat="screenshot in project.screenshots" ng-if="screenshot">
-				<img src="{{screenshot.file}}">
+				<img ng-src="{{screenshot.file}}">
 			</ion-slide>
 		</ion-slide-box>
 		<ion-list>
 			<ion-item class="item-avatar">
-				<img src="{{project.logo}}">
+				<img ng-src="{{project.logo}}" ng-if="project.logo">
 				<h2>{{project.name}}</h2>
 				<h4 class="projectsubtitle">by #{{project.group.id}} {{project.group.name}}</h4>
 			</ion-item>
 			<ion-item>
 				<h3>Description</h3>
-				<p class="description">{{project.description}}</p>
+				<p class="description" ng-bind-html="project.description"></p>
 			</ion-item>
 			<ion-item class="item-divider">
 				Voting
@@ -23,15 +23,15 @@
 			</div>
 			<div ng-if="user">
 				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
-					{{category.name}}
+					<div class="catname">{{category.name}}</div>
 					<div class="icon" ng-hide="voteLoad[category.id]">
 						<i class="star clickable" ng-class="{'ion-ios7-star energized' : i <= project.vote[category.id].score, 
 													'ion-ios7-star-outline energized': i > project.vote[category.id].score || project.vote[category.id] === undefined }" ng-repeat = "i in star" ng-click= "starVote(category.id, i) "></i>
 					</div>
 					<i class="icon ion-load-d" ng-show="voteLoad[category.id]"></i>
 				</ion-item>
-				<ion-item class = "item-icon-right" ng-repeat="category in voteCategory" ng-if= "category.type == 'BEST_OF' " ng-click="bestVote(category.id)">
-					{{category.name}}
+				<ion-item class="item-icon-right" ng-repeat="category in voteCategory" ng-if= "category.type == 'BEST_OF' " ng-click="bestVote(category.id)">
+					<div class="catname">{{category.name}}</div>
 					<i class="icon" ng-class="{'ion-checkmark': !voteLoad[category.id] && getVoted(category.id).id == project.id,
 											'balanced': !voteLoad[category.id] && getVoted(category.id).id == project.id,
 											'ion-load-d': voteLoad[category.id]}" >

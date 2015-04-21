@@ -16,6 +16,9 @@ angular.module('starter.controllers', [])
 			$rootScope.voteCategory[data[i].id] = data[i];
 		}
 	});
+	$http.get(SERVER + "config").success(function(data){
+		$rootScope.config = data;
+	});
 })
 
 .controller('LoginCtrl', function($state, $stateParams, $rootScope, $scope, $http, SERVER, $ionicPopup, $ionicLoading, $ionicHistory){
@@ -189,11 +192,19 @@ angular.module('starter.controllers', [])
 			
 			// reload project list
 			return $scope.reloadProject();
-		}, function(){
-			$ionicPopup.alert({
-				title: "Network error",
-				template: "Your vote are not registered"
-			});
+		}, function(data){
+			if( data.data ){
+				$ionicPopup.alert({
+					title: "Error",
+					template: $sanitize(data.data)
+				});
+			}
+			else{
+				$ionicPopup.alert({
+					title: "Network error",
+					template: "Your vote are not registered"
+				});
+			}
 		}).finally(function(){
 			delete $scope.voteLoad[catId];
 		});

@@ -38,6 +38,9 @@
 					</i>
 				</ion-item>
 			</div>
+			<div ng-if="user && config.voteOpen == false" class="voteerror">
+				<a>Vote Closed</a>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

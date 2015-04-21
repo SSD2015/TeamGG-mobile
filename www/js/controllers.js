@@ -18,6 +18,11 @@ angular.module('starter.controllers', [])
 	});
 	$http.get(SERVER + "config").success(function(data){
 		$rootScope.config = data;
+		if($rootScope.config.showResult == '1'){
+			$http.get(SERVER + "vote_result").success(function(data){
+				$rootScope.vote_result = data;
+			});
+		}
 	});
 })
 

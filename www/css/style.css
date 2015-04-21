@@ -41,7 +41,7 @@
 .help{
 	color: #aaa;
 }
-.voteerror a{
+.voteerror a, .voteerror div{
 	display: block;
 	text-align: center;
 	font-size: 16pt;

@@ -15,13 +15,27 @@
 				<h3>Description</h3>
 				<p class="description" ng-bind-html="project.description"></p>
 			</ion-item>
-			<ion-item class="item-divider">
+			<ion-item ng-if="config.voteOpen == '1' || config.showResult == '1'" class="item-divider">
 				Voting
 			</ion-item>
-			<div ng-if="!user" class="voteerror">
+			<div ng-if="config.showResult == '1'">
+				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
+					<div class="catname">{{category.name}}</div>
+					<div class="icon">
+						{{vote_result[project.id][category.id].scoreString || 0}}<small>/5</small>
+					</div>
+				</ion-item>
+				<ion-item class="item-icon-right" ng-repeat="category in voteCategory" ng-if= "category.type == 'BEST_OF' " ng-click="bestVote(category.id)">
+					<div class="catname">{{category.name}}</div>
+					<div class="icon">
+						{{vote_result[project.id][category.id].scoreString || 0}} votes
+					</div>
+				</ion-item>
+			</div>
+			<div ng-if="!user && config.voteOpen == '1'" class="voteerror">
 				<a ui-sref="base.login()" ui-sref-opts="{location: 'replace'}">Login to vote</a>
 			</div>
-			<div ng-if="user">
+			<div ng-if="user && config.voteOpen == '1'">
 				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
 					<div class="catname">{{category.name}}</div>
 					<div class="icon" ng-hide="voteLoad[category.id]">
@@ -38,8 +52,8 @@
 					</i>
 				</ion-item>
 			</div>
-			<div ng-if="user && config.voteOpen == false" class="voteerror">
-				<a>Vote Closed</a>
+			<div ng-if="user && config.voteOpen == '0' && config.showResult == '0'" class="voteerror">
+				<div>Vote closed</div>
 			</div>
 		</div>
 	</ion-content>

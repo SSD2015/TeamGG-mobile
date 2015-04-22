@@ -55,6 +55,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'ProjectInfoCtrl'
       }
     }
+  })
+  .state('base.voteresult', {
+    url: '/result',
+    templateUrl: 'templates/voteresult.html',
+    controller: 'VoteResultCtrl'
   });
 
   $urlRouterProvider.otherwise('/');

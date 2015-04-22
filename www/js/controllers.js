@@ -245,4 +245,17 @@ angular.module('starter.controllers', [])
 	$scope.starVote = function(catId, scores){
 		vote(catId, scores);
 	}
+})
+
+.controller('VoteResultCtrl', function($http, SERVER, $scope, $rootScope){
+	$scope.reloadProject = function(){
+		return $http.get(SERVER + "project").success(function(data){
+			if(data){
+				$scope.projects = data;
+			}
+		});
+	};
+
+	$scope.reloadProject();
+	
 });

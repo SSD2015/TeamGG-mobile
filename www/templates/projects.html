@@ -15,9 +15,10 @@
 			<h4 ng-if = "confid.announcement != '' " ng-bind-html="config.announcement"></h4>
 		</div>
 		<ion-list>
-			<div ng-if="user && config.voteOpen == '0' && config.showResult == '1'" class="voteerror" ui-sref="base.voteresult">
-				<div>Vote closed Click for Vote Result</div>
-			</div>
+			<ion-item ui-sref="base.voteresult" ng-if="config.showResult == '1'">
+				<h2 class="text-center">View vote result</h2>
+			</ion-item>
+			</ion-item>
 			<ion-item class="item-thumbnail-left item-icon-right" ng-repeat="project in projects" ui-sref="base.projectlist.project({id: project.id})">
 				<img ng-src="{{project.logo}}" ng-if="project.logo">
 				<img ng-src="http://placehold.it/80x80" ng-if="!project.logo">

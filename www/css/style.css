@@ -72,6 +72,19 @@
 	overflow: hidden;
 }
 
+.item-divider.item-avatar{
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+.icon small{
+	font-size: 14pt;
+	margin-left: 10px;
+}
+
+ion-slide img{
+	max-width: 100%;
+}
+
 @media (max-width: 400px){
 	.applogo img{
 		width: 80%;

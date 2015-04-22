@@ -15,23 +15,12 @@
 				<h3>Description</h3>
 				<p class="description" ng-bind-html="project.description"></p>
 			</ion-item>
-			<ion-item ng-if="config.voteOpen == '1' || config.showResult == '1'" class="item-divider">
+			<ion-item ng-if="config.voteOpen == '1'" class="item-divider">
 				Voting
 			</ion-item>
-			<div ng-if="config.voteOpen == '0' ">
-				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
-					<div class="catname">{{category.name}}</div>
-					<div class="icon">
-						{{project.vote[category.id].score || 0}}<small>/5</small>
-					</div>
-				</ion-item>
-				<ion-item class="item-icon-right" ng-repeat="category in voteCategory" ng-if= "category.type == 'BEST_OF' ">
-					<div class="catname">{{category.name}}</div>
-					<div class="icon" ng-if="project.vote[category.id].score == 1">
-						Best of {{category.name}}
-					</div>
-				</ion-item>
-			</div>
+			<ion-item ng-if="config.voteOpen == '0'" class="item-divider">
+				Your vote
+			</ion-item>
 			<div ng-if="!user && config.voteOpen == '1'" class="voteerror">
 				<a ui-sref="base.login()" ui-sref-opts="{location: 'replace'}">Login to vote</a>
 			</div>
@@ -52,8 +41,17 @@
 					</i>
 				</ion-item>
 			</div>
-			<div ng-if="user && config.voteOpen == '0' && config.showResult == '1'" class="voteerror" ui-sref="base.voteresult">
-				<div>Vote closed Click for Vote Result</div>
+			<div ng-if="user && config.voteOpen == '0'">
+				<ion-item class="item-icon-right" ng-repeat= "category in voteCategory" ng-if="category.type == 'STAR' ">
+					<div class="catname">{{category.name}}</div>
+					<div class="icon">
+						{{project.vote[category.id].score || 0}}<small>/5</small>
+					</div>
+				</ion-item>
+				<ion-item class="item-icon-right" ng-repeat="category in voteCategory" ng-if="category.type == 'BEST_OF' && project.vote[category.id].score == 1">
+					<div class="catname">{{category.name}}</div>
+					<i class="icon ion-checkmark balanced"></i>
+				</ion-item>
 			</div>
 		</div>
 	</ion-content>

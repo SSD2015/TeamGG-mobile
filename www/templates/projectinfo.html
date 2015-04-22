@@ -52,8 +52,8 @@
 					</i>
 				</ion-item>
 			</div>
-			<div ng-if="user && config.voteOpen == '0' && config.showResult == '0'" class="voteerror">
-				<div>Vote closed</div>
+			<div ng-if="user && config.voteOpen == '0' && config.showResult == '1'" class="voteerror" ui-sref="base.voteresult">
+				<div>Vote closed Click for Vote Result</div>
 			</div>
 		</div>
 	</ion-content>

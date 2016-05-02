@@ -39,3 +39,10 @@ ionic run
 ## Contributing note
 
 The application should be completely working in the development server (don't depends on plugins, if you need to make it optional). This is because the application will need to be installed as web page too.
+
+## Screenshots
+
+![Main menu](http://i.imgur.com/Lnn7pdQ.png)
+![Voting result](http://i.imgur.com/WTifARJ.png)
+![Voting page](http://i.imgur.com/HvsOlIJ.png)
+![Voting page (closed)](http://i.imgur.com/NueqMb5.png)
